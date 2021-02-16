@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryLight">#CCCCCC</color>
+    <color name="primaryVariantLight">#888888</color>
+    <color name="onPrimaryLight">#FFFFFF</color>
+
+    <color name="secondaryLight">#CCCCFF</color>
+    <color name="secondaryVariantLight">#8888FF</color>
+    <color name="onSecondaryLight">#FFFFFF</color>
+
+    <color name="primaryDark">#444444</color>
+    <color name="primaryVariantDark">#222222</color>
+    <color name="onPrimaryDark">#000000</color>
+
+    <color name="secondaryDark">#444466</color>
+    <color name="secondaryVariantDark">#222244</color>
+    <color name="onSecondaryDark">#000000</color>
+
+</resources>
