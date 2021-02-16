@@ -2,6 +2,7 @@ package com.code.finalproject;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -26,22 +27,15 @@ public class UserDatabase {
 
     private static ArrayList<User> userList = new ArrayList<>();
     private static OkHttpClient client = new OkHttpClient();
+    private static boolean downloading = false;
+
+    public static boolean isDownloading() {
+        return downloading;
+    }
 
     public static void initDatabase() {
 
         if (userList.size() == 0) {
-            /*
-            userList.add(new User(0,"mail@mail.co", "pass", "Bill Bob", "1000 Street street"));
-            userList.add(new User(1,"pail@mail.co", "pass", "Jack N Jill", "256 A Ln"));
-            userList.add(new User(2,"longemailaddress@mail.co", "pass", "Walla Walla Wonion Wings", "645 Nice Road"));
-            userList.add(new User(3,"whatisthis@mail.co", "pass", "Lesser Gatsby", "4678 Long Drive"));
-            userList.add(new User(4,"email@mail.co", "pass", "King Cong", "446 King Court"));
-            userList.add(new User(5,"gmail@mail.co", "pass", "Mighty Bee", "674 Nowhere Rd"));
-            userList.add(new User(6,"wemail@mail.co", "pass", "Doland Goofe", "000 Null Lane"));
-            userList.add(new User(7,"themail@mail.co", "pass", "Ansem Wise", "457 Lost Ship Doc"));
-            userList.add(new User(8,"impact@mail.co", "pass", "Name Man", "476 My Name"));
-             */
-
             run();
         }
     }
@@ -107,7 +101,7 @@ public class UserDatabase {
 
         Request request = new Request.Builder().url(url).build();
 
-        final boolean[] donwloading = {true};
+        downloading = true;
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -121,19 +115,14 @@ public class UserDatabase {
                     throw new IOException("Unexpected code " + response);
                 } else {
                     String data = response.body().string();
-                    System.out.println("Response Data");
-                    System.out.println(data);
+                    Log.d("Response Data", "data");
 
                     Gson gson = new Gson();
                     UserDatabase.initDatabase(gson.fromJson(data, User[].class));
-                    donwloading[0] = false;
+                    UserDatabase.downloading = false;
                 }
             }
         });
-
-        while (donwloading[0]) {
-
-        }
     }
 
 }

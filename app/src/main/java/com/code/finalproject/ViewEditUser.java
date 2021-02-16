@@ -12,6 +12,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -44,7 +45,33 @@ public class ViewEditUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_edit_user);
 
-        UserDatabase.initDatabase();
+        loadData();
+    }
+
+    public void loadData() {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                UserDatabase.initDatabase();
+
+                while (UserDatabase.isDownloading()) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Downloading User Data");
+                }
+
+                runOnUiThread(() -> setupScreen());
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    public void setupScreen() {
         LoginActivity.root = getFilesDir().getAbsolutePath();
 
         viewEdit = findViewById(R.id.view_editUser);

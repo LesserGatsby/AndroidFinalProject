@@ -65,16 +65,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        UserDatabase.initDatabase();
-
         LoginActivity.root = getFilesDir().getAbsolutePath();
 
+        loadData();
+
+    }
+
+    public void loadData() {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                UserDatabase.initDatabase();
+
+                while (UserDatabase.isDownloading()) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Downloading User Data");
+                }
+
+                runOnUiThread(() -> setupScreen());
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    public void setupScreen() {
         SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
 
         System.out.println(sp.contains(LoginActivity.idKey));
         System.out.println(sp.getInt(LoginActivity.idKey, -1));
         user = UserDatabase.getUser(getSharedPreferences("shared", MODE_PRIVATE).getInt(LoginActivity.idKey, -1));
-        System.out.println("USER IS " + user + " : id = " + getSharedPreferences("shared", MODE_PRIVATE).getInt(LoginActivity.idKey, -1));
         if (user == null) {
             logOut(null);
             finish();
@@ -94,24 +119,13 @@ public class MainActivity extends AppCompatActivity {
             UserDatabase.initDatabase();
             setData(UserDatabase.getUsers());
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setData(UserDatabase.getUsers());
 
-        ImageView userImage = findViewById(R.id.userIcon);
-        TextView userName = findViewById(R.id.userName);
-
-        if (user.name.equals("")) {
-            userName.setText(user.email);
-        } else {
-            userName.setText(user.name);
-        }
-
-        setUserImageForView(this, user, userImage);
+        loadData();
     }
 
     public void logOut(View view) {
