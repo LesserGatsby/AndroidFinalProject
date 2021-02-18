@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("Downloading User Data");
+                    Log.d("Downloading", "Downloading User Data");
                 }
 
                 runOnUiThread(() -> setupScreen());
@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
     public void setupScreen() {
         SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
 
-        System.out.println(sp.contains(LoginActivity.idKey));
-        System.out.println(sp.getInt(LoginActivity.idKey, -1));
+        Log.d("Contains Id Key", sp.contains(LoginActivity.idKey) + "");
+        Log.d("Id Key", sp.getInt(LoginActivity.idKey, -1) + "");
         user = UserDatabase.getUser(getSharedPreferences("shared", MODE_PRIVATE).getInt(LoginActivity.idKey, -1));
         if (user == null) {
             logOut(null);

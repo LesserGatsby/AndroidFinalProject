@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logIn(View view) {
-        System.out.println("Loggin In>");
+        Log.d("Logging In", "Logging In");
         SharedPreferences shared = getSharedPreferences("shared", MODE_PRIVATE);
 
         String email = emailBox.getText().toString().trim();

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -56,10 +57,10 @@ public class User implements Serializable {
 
         File file = new File(imagePath);
 
-        System.out.println("User " + email + " icon at " + imagePath);
+        Log.d("User Icon Path Detail", "User " + email + " icon at " + imagePath);
 
         Uri uri = Uri.fromFile(file);
-        System.out.println("Saving " + email + " to card");
+        Log.d("Saving ", email);
 
         icon = bitmap;
 
@@ -78,10 +79,10 @@ public class User implements Serializable {
 
         File file = new File(imagePath);
 
-        System.out.println("User " + email + " icon at " + imagePath);
+        Log.d("User Icon Location", "User " + email + " icon at " + imagePath);
         if (file.exists()) {
             Uri uri = Uri.fromFile(file);
-            System.out.println("Loading " + email + " icon from card");
+            Log.d("Loading ", email + " icon from card");
 
             Picasso.get().load(uri).into(new Target() {
                 @Override
@@ -100,7 +101,7 @@ public class User implements Serializable {
                 }
             });
         } else {
-            System.out.println("Loading " + email + " icon from web");
+            Log.d("Loading ", email + " icon from web");
             Picasso.get().load("https://robohash.org/" + email).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
