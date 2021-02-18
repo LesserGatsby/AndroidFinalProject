@@ -36,10 +36,6 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String root;
-
-    public static String idKey = "userID";
-
     TextView emailBox;
     TextView passwordBox;
     Button loginButton;
@@ -72,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        root = getFilesDir().getAbsolutePath();
+        Utility.root = getFilesDir().getAbsolutePath();
 
         emailBox = findViewById(R.id.email);
         passwordBox = findViewById(R.id.password);
@@ -84,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences shared = getSharedPreferences("shared", MODE_PRIVATE);
 
-        if (shared.contains(idKey)) {
-            int id = shared.getInt(idKey, -1);
+        if (shared.contains(Utility.idKey)) {
+            int id = shared.getInt(Utility.idKey, -1);
             User user = UserDatabase.getUser(id);
 
             openMain();
@@ -106,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null && user.password.equals(password)) {
 
                 SharedPreferences.Editor editor = shared.edit();
-                editor.putInt(idKey, user.id);
+                editor.putInt(Utility.idKey, user.id);
                 editor.apply();
 
                 openMain();

@@ -31,7 +31,7 @@ public class User implements Serializable {
         int hash = email.hashCode();
         if (hash < 0)
             hash *= -1;
-        String prePath = LoginActivity.root;
+        String prePath = Utility.root;
         String imagePath = prePath + "/" + hash + "icon.png";
 
         return imagePath;

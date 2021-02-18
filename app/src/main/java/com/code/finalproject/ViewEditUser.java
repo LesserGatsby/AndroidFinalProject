@@ -72,7 +72,7 @@ public class ViewEditUser extends AppCompatActivity {
     }
 
     public void setupScreen() {
-        LoginActivity.root = getFilesDir().getAbsolutePath();
+        Utility.root = getFilesDir().getAbsolutePath();
 
         viewEdit = findViewById(R.id.view_editUser);
 
@@ -88,7 +88,7 @@ public class ViewEditUser extends AppCompatActivity {
         editableDrawable = name.getBackground();
 
         if (MainActivity.user == null) {
-            MainActivity.user = UserDatabase.getUser(getSharedPreferences("shared", MODE_PRIVATE).getInt(LoginActivity.idKey, -1));
+            MainActivity.user = UserDatabase.getUser(getSharedPreferences("shared", MODE_PRIVATE).getInt(Utility.idKey, -1));
         }
 
         boolean editable = user.equals(MainActivity.user);

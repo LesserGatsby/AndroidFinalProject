@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LoginActivity.root = getFilesDir().getAbsolutePath();
+        Utility.root = getFilesDir().getAbsolutePath();
 
         loadData();
 
@@ -97,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
     public void setupScreen() {
         SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
 
-        Log.d("Contains Id Key", sp.contains(LoginActivity.idKey) + "");
-        Log.d("Id Key", sp.getInt(LoginActivity.idKey, -1) + "");
-        user = UserDatabase.getUser(getSharedPreferences("shared", MODE_PRIVATE).getInt(LoginActivity.idKey, -1));
+        Log.d("Contains Id Key", sp.contains(Utility.idKey) + "");
+        Log.d("Id Key", sp.getInt(Utility.idKey, -1) + "");
+        user = UserDatabase.getUser(getSharedPreferences("shared", MODE_PRIVATE).getInt(Utility.idKey, -1));
         if (user == null) {
             logOut(null);
             finish();
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut(View view) {
         SharedPreferences.Editor editor = getSharedPreferences("shared", MODE_PRIVATE).edit();
-        editor.remove(LoginActivity.idKey);
+        editor.remove(Utility.idKey);
         editor.apply();
 
         Intent intent = new Intent(this, LoginActivity.class);

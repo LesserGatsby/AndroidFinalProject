@@ -40,7 +40,7 @@ public class UserDatabase {
         }
     }
 
-    public static void initDatabase(User[] users) {
+    private static void initDatabase(User[] users) {
         userList = new ArrayList<User>(Arrays.asList(users));
         for (int i = 0; i < userList.size(); i++) {
             userList.get(i).id = i;
