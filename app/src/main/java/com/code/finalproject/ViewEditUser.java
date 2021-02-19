@@ -112,7 +112,6 @@ public class ViewEditUser extends AppCompatActivity {
         }
 
         if (savedInstanceState != null) {
-            System.out.println("LOADING INSTANCE STATEAHHTGEHWEAQU: " + savedInstanceState.getString("name"));
             name.setText(savedInstanceState.getString("name"));
             password.setText(savedInstanceState.getString("pass"));
             email.setText(savedInstanceState.getString("email"));
@@ -168,8 +167,7 @@ public class ViewEditUser extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        System.out.println("SAVING INSTANCE STATEAHHTGEHWEAQU:");
+        
         outState.putString("name", name.getText().toString());
         outState.putString("pass", password.getText().toString());
         outState.putString("email", email.getText().toString());

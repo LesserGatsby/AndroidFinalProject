@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null && user.password.equals(password)) {
 
                 SharedPreferences.Editor editor = shared.edit();
-                System.out.println("USER ID IS : " + user.id);
+                Log.d("USER ID ", user.id + "");
                 editor.putInt(Utility.idKey, user.id);
                 editor.apply();
 
