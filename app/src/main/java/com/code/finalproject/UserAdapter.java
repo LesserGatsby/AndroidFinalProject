@@ -73,16 +73,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 openUser(v, u);
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
         return data.length;
     }
-
-
 
     public void openUser(View view, User user) {
 

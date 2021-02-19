@@ -38,6 +38,7 @@ public class User implements Serializable {
     }
 
     public User(int id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
         name = "";
@@ -53,29 +54,29 @@ public class User implements Serializable {
     }
 
     public void setImage(Bitmap bitmap) {
-        icon = null;
-        String imagePath = iconPath();
 
-        File file = new File(imagePath);
+        icon = Bitmap.createBitmap(bitmap);
+        String imagePath = iconPath();
 
         Log.d("User Icon Path Detail", "User " + email + " icon at " + imagePath);
 
-        Uri uri = Uri.fromFile(file);
         Log.d("Saving ", email);
 
         try (FileOutputStream out = new FileOutputStream(imagePath)){
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            icon.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        loadImage();
-
     }
 
     public void loadImage() {
+        if (icon != null)
+            return;
+
         String imagePath = iconPath();
 
         File file = new File(imagePath);
@@ -93,7 +94,6 @@ public class User implements Serializable {
 
                 @Override
                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
                 }
 
                 @Override
@@ -108,7 +108,7 @@ public class User implements Serializable {
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     icon = bitmap;
 
-                    try (FileOutputStream out = new FileOutputStream(imagePath)){
+                    try (FileOutputStream out = new FileOutputStream(imagePath)) {
                         icon.compress(Bitmap.CompressFormat.PNG, 100, out);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -119,7 +119,6 @@ public class User implements Serializable {
 
                 @Override
                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
                 }
 
                 @Override
