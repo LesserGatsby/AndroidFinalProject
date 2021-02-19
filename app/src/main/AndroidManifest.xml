@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject">
 
-        <activity android:name=".LoginActivity" android:label="Final Project" android:screenOrientation="sensor">
+        <activity android:name=".LoginActivity" android:label="Final Project" android:screenOrientation="sensor" android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,9 +17,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" android:screenOrientation="sensor"></activity>
+        <activity android:name=".MainActivity" android:screenOrientation="sensor" android:configChanges="orientation|screenSize|keyboardHidden"></activity>
 
-        <activity android:name=".ViewEditUser" android:screenOrientation="sensor"></activity>
+        <activity android:name=".ViewEditUser" android:screenOrientation="sensor" android:configChanges="orientation|screenSize|keyboardHidden"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

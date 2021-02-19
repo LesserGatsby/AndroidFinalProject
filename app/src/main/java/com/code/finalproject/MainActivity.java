@@ -33,6 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static User user = null;
+    int scrollPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Utility.root = getFilesDir().getAbsolutePath();
+
+        if (savedInstanceState != null) {
+            scrollPosition = savedInstanceState.getInt("position");
+        }
 
         loadData();
 
@@ -128,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
         rv.setAdapter(userAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.addItemDecoration(new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL));
+
+        System.out.println(scrollPosition);
+        rv.setScrollY(scrollPosition);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -174,5 +182,13 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.createNotificationChannel(channel);
         notificationManager.notify(0, builder.build());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        RecyclerView rv = findViewById(R.id.userList);
+        savedInstanceState.putInt("position", rv.getScrollY()); // get current recycle view position here.
+        //your other code
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
