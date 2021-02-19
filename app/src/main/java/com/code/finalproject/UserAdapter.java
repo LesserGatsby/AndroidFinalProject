@@ -63,7 +63,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
         holder.userEmail.setText(u.email);
 
-        MainActivity.setUserImageForView(activity, u, holder.userImage);
+        Utility.setUserImageForView(activity, u, holder.userImage);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -1,7 +1,5 @@
 package com.code.finalproject;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -14,9 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import androidx.annotation.RequiresApi;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -36,7 +32,7 @@ public class UserDatabase {
     public static void initDatabase() {
 
         if (userList.size() == 0) {
-            run();
+            downloadUserData();
         }
     }
 
@@ -96,7 +92,7 @@ public class UserDatabase {
         return sortedList;
     }
 
-    private static void run() {
+    private static void downloadUserData() {
         String url = "https://jsonplaceholder.typicode.com/users";
 
         Request request = new Request.Builder().url(url).build();

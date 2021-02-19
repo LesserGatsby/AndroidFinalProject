@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView passwordBox;
     Button loginButton;
 
+    //Enables login button if email and password boxes are not empty
     TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -89,12 +90,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logIn(View view) {
-        Log.d("Logging In", "Logging In");
+
         SharedPreferences shared = getSharedPreferences("shared", MODE_PRIVATE);
 
         String email = emailBox.getText().toString().trim();
         String password = passwordBox.getText().toString().trim();
-
 
         if (!email.equals("") && !password.equals("")) {
 
@@ -112,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //Opens Main Activity and removes login activity from the back stack
     public void openMain() {
         LoginActivity activity = this;
 

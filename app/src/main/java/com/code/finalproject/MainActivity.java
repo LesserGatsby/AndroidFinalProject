@@ -34,32 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static User user = null;
 
-    public static void setUserImageForView(AppCompatActivity activity, User user, ImageView view) {
-        user.loadImage();
-
-        Thread wait = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (user.icon == null) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.setImageBitmap(user.icon);
-                    }
-                });
-            }
-        });
-
-        wait.start();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 userName.setText(user.name);
             }
 
-            setUserImageForView(this, user, userImage);
+            Utility.setUserImageForView(this, user, userImage);
 
             UserDatabase.initDatabase();
             setData(UserDatabase.getUsers());

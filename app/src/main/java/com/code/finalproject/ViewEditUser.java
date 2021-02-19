@@ -1,5 +1,6 @@
 package com.code.finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +40,7 @@ public class ViewEditUser extends AppCompatActivity {
     Drawable editableDrawable;
     Drawable uneditableDrawable = null;
 
-    Bitmap userIconBitmap;
+    static Bitmap userIconBitmap;
 
 
     @Override
@@ -46,10 +48,10 @@ public class ViewEditUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_edit_user);
 
-        loadData();
+        loadData(savedInstanceState);
     }
 
-    public void loadData() {
+    public void loadData(Bundle savedInstanceState) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -63,7 +65,7 @@ public class ViewEditUser extends AppCompatActivity {
                     }
                 }
 
-                runOnUiThread(() -> setupScreen());
+                runOnUiThread(() -> setupScreen(savedInstanceState));
             }
         };
 
@@ -71,7 +73,7 @@ public class ViewEditUser extends AppCompatActivity {
         thread.start();
     }
 
-    public void setupScreen() {
+    public void setupScreen(Bundle savedInstanceState) {
         Utility.root = getFilesDir().getAbsolutePath();
 
         viewEdit = findViewById(R.id.view_editUser);
@@ -108,6 +110,18 @@ public class ViewEditUser extends AppCompatActivity {
         } else {
             button.setVisibility(View.GONE);
         }
+
+        if (savedInstanceState != null) {
+            System.out.println("LOADING INSTANCE STATEAHHTGEHWEAQU: " + savedInstanceState.getString("name"));
+            name.setText(savedInstanceState.getString("name"));
+            password.setText(savedInstanceState.getString("pass"));
+            email.setText(savedInstanceState.getString("email"));
+            address.setText(savedInstanceState.getString("address"));
+
+            if (userIconBitmap != null) {
+                userIcon.setImageBitmap(userIconBitmap);
+            }
+        }
     }
 
     public void setEditable(TextView textView, boolean editable) {
@@ -118,7 +132,8 @@ public class ViewEditUser extends AppCompatActivity {
     }
 
     public void setUserData() {
-        MainActivity.setUserImageForView(this, user, userIcon);
+        if (userIconBitmap == null)
+            Utility.setUserImageForView(this, user, userIcon);
 
         name.setText(user.name);
         password.setText(user.password);
@@ -135,6 +150,7 @@ public class ViewEditUser extends AppCompatActivity {
 
         if (userIconBitmap != null)
             user.setImage(userIconBitmap);
+        userIconBitmap = null;
 
         finish();
     }
@@ -147,6 +163,25 @@ public class ViewEditUser extends AppCompatActivity {
         if (MainActivity.isApplicationSentToBackground(this)) {
             sendNotification(getIntent(), this);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        System.out.println("SAVING INSTANCE STATEAHHTGEHWEAQU:");
+        outState.putString("name", name.getText().toString());
+        outState.putString("pass", password.getText().toString());
+        outState.putString("email", email.getText().toString());
+        outState.putString("address", address.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        setupScreen(savedInstanceState);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
